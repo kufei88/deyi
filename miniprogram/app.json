@@ -23,16 +23,16 @@
     "borderStyle": "white",
     "list": [
       {
-        "selectedIconPath": "images/首页.png",
-        "iconPath": "images/首页.png",
+        "selectedIconPath": "images/账簿s.png",
+        "iconPath": "images/账簿.png",
         "pagePath": "pages/index/index",
-        "text": "首页"
+        "text": "账簿"
       },
       {
-        "selectedIconPath": "images/测试.png",
-        "iconPath": "images/测试.png",
+        "selectedIconPath": "images/相册s.png",
+        "iconPath": "images/相册.png",
         "pagePath": "pages/test/test",
-        "text": "测试"
+        "text": "相册"
       }
      
     ]
