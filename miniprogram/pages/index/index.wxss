@@ -135,3 +135,31 @@ page {
   line-height: 36rpx;
   word-break: break-all;
 }
+
+.round-click{
+    height: 80rpx;
+    width: 80rpx;
+    background-color: #d92a2a;
+    
+    padding: 0;
+    position: fixed;
+    bottom: 150rpx;
+    right: 20rpx;
+    border-radius: 100%;
+    line-height: 70rpx;
+    text-align: center;
+    z-index: 9;
+}
+.round-click a{
+    font-size: 64rpx;
+    max-width: 80rpx;
+    color: #fff;
+    
+}
+
+.modal-title{
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  color: #888;
+}

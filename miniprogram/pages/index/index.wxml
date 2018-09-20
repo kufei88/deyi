@@ -1,11 +1,45 @@
 <!--index.wxml-->
 <view >
-
-  <i-cell-group>
-    <i-cell title="2018-08-17" label="出生" value="7000.00"></i-cell>
-    <i-cell title="2018-08-20"  label="奶粉" value="300.00"></i-cell>
-    <i-cell title="2018-08-22" label="尿不湿" value="600.00"></i-cell>
+  
+  <i-cell-group wx:for="{{booksList}}" >
+    <i-cell title="{{item.bookTime}}" label="{{item.bookType}}" value="{{item.bookValue}}"></i-cell>
+    
     
 </i-cell-group>
 
+<modal show="{{showModal}}" height='40%' bindcancel="modalCancel" bindconfirm='add'>
+   <view class='modal-content'>
+   
+      <view class="modal-title">账单</view>
+              
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">类型</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <input class="weui-input" bindinput="bindTypeInput" placeholder="请输入类型"/>
+                </view>
+            </view>
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">金额</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <input type="digit" class="weui-input" bindinput="bindValueInput" placeholder="请输入金额"/>
+                </view>
+            </view>
+        </view>
+   </view>
+</modal>
+
+ 
+    
+   
+
+
+<!--圆形点击框  -->
+    <view class="round-click">
+       <a bindtap="handleOpen1">+</a>
+    </view>
 </view>

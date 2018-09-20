@@ -1,13 +1,123 @@
 //index.js
 const app = getApp()
-
+var util = require('../../lib/util.js');
 Page({
   data: {
     avatarUrl: './user-unlogin.png',
     userInfo: {},
     logged: false,
     takeSession: false,
-    requestResult: ''
+    requestResult: '',
+    showModal: false,
+    booksList:'',
+    bookType:'',
+    bookValue:''
+  },  
+  bindBookType(e){
+    console.log(e.detail.value);
+    this.setData({
+      bookType: e.detail.value
+    })
+  },
+  getBooksList(){
+     const db = wx.cloud.database()
+     // 查询当前用户所有的 counters
+     db.collection('books').get({
+       
+
+       success: res => {
+         let comms = res.data;
+         console.log(comms);
+         for(let c in comms){
+           
+           let date = util.formatDate(comms[c].bookTime);
+           
+           comms[c].bookTime = date;
+         }
+         this.setData({
+           booksList: comms
+         })
+         console.log('[数据库] [查询记录] 成功: ', res)
+         let now = new date();
+         
+         
+       },
+       fail: err => {
+         wx.showToast({
+           icon: 'none',
+           title: '查询记录失败'
+         })
+         console.error('[数据库] [查询记录] 失败：', err)
+       }
+     })
+  },
+  handleOpen1() {
+    this.setData({
+      showModal: true
+    });
+  },
+  handleClose1() {
+    this.setData({
+      visible1: false
+    });
+    
+  },
+  bindTypeInput: function (e) {
+    this.setData({
+      bookType: e.detail.value
+    })
+  },
+  bindValueInput: function (e) {
+    this.setData({
+      bookValue: e.detail.value
+    })
+  },
+  add(){
+    console.log(this.data.bookValue);
+     if(!this.data.bookType){
+       wx.showToast({
+         title: '请输入类型',
+       })
+       return;
+     }
+    if (!this.data.bookValue) {
+      wx.showToast({
+        title: '请输入金额',
+      })
+      return;
+    }
+     const db = wx.cloud.database()
+     db.collection('books').add({
+       data: {
+         bookType: this.data.bookType,
+         bookValue: this.data.bookValue,
+         bookTime: new Date()
+       },
+       success: res => {
+         // 在返回结果中会包含新创建的记录的 _id
+         this.setData({
+           counterId: res._id,
+           count: 1
+         })
+         wx.showToast({
+           title: '新增记录成功',
+         })
+         console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
+         this.getBooksList();
+         this.setData({
+           visible1: false
+         });
+         console.log(this.data.visible1);
+       },
+       fail: err => {
+         wx.showToast({
+           icon: 'none',
+           title: '新增记录失败'
+         })
+         console.error('[数据库] [新增记录] 失败：', err)
+       }
+     })
+
   },
   onShareAppMessage: function () {
 
@@ -29,7 +139,7 @@ Page({
       })
       return
     }
-
+    this.getBooksList();
     // 获取用户信息
     wx.getSetting({
       success: res => {
